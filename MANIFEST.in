@@ -1,0 +1,23 @@
+include README.md
+include PRIVATE_SETTINGS.md
+include LICENSE
+include NOTICE
+include THIRD_PARTY_NOTICES.md
+include DEPENDENCIES.json
+include RELEASE_PROVENANCE.md
+include pyproject.toml
+include constraints-tested.txt
+include RELEASE_MANIFEST.sha256
+include .gitignore
+include .env.example
+recursive-include config *.yaml
+recursive-include identity *.md
+include examples/owner-settings.example.json
+recursive-include src/atlas_core *.py *.html *.css *.js *.json *.md
+recursive-include tests *.py
+global-exclude *.py[cod]
+global-exclude __pycache__
+prune data
+prune workspace
+prune .venv
+prune .pytest_cache

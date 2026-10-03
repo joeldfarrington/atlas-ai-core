@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Atlas Core</title>
+  <link rel="stylesheet" href="/static/styles.css?v=20260906-ui1">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-row">
+        <div class="brand-mark">A</div>
+        <div>
+          <div class="brand-name">Atlas</div>
+          <div class="brand-subtitle">Local Core</div>
+        </div>
+        <button class="icon-button mobile-only" id="close-sidebar" aria-label="Close menu">×</button>
+      </div>
+
+      <button class="primary-button full" id="new-conversation">＋ New conversation</button>
+
+      <section class="development-control" aria-label="Atlas background improvement">
+        <strong>Background learning</strong>
+        <p id="improvement-status" role="status">Checking status…</p>
+        <button class="secondary-button small" id="pause-improvement" type="button">Pause learning</button>
+        <button class="secondary-button small" id="resume-improvement" type="button">Resume learning</button>
+        <button class="secondary-button small" id="refresh-improvement" type="button">Check status</button>
+        <small>Checks at most one queued item every three hours while Atlas is running. Live code changes require your review.</small>
+      </section>
+
+      <section class="development-control" aria-label="Atlas development controls">
+        <strong>Atlas development copy</strong>
+        <span class="muted">atlas-selfdev</span>
+        <p id="development-control-status" role="status" aria-live="polite">Checking development control…</p>
+        <button class="danger-button full" id="stop-development" type="button">Stop Atlas development</button>
+        <div class="development-control-actions">
+          <button class="secondary-button small" id="resume-development" type="button" disabled>Resume development</button>
+          <button class="secondary-button small" id="refresh-development-control" type="button">Check status</button>
+        </div>
+        <small>Controls this development copy. Chat, research, and backups stay available.</small>
+      </section>
+
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-button active" data-view="chat"><span>◌</span>Chat</button>
+        <button class="nav-button" data-view="projects"><span>▦</span>Projects</button>
+        <button class="nav-button" data-view="memory"><span>◇</span>Memory</button>
+        <button class="nav-button" data-view="approvals"><span>✓</span>Approvals <b id="approval-count" class="count hidden">0</b></button>
+        <button class="nav-button" data-view="agents"><span>◎</span>Agents</button>
+        <button class="nav-button" data-view="settings"><span>⚙</span>Settings</button>
+        <button class="nav-button" data-view="audit"><span>≡</span>Audit</button>
+      </nav>
+
+      <div class="sidebar-section">
+        <div class="section-label">Conversations</div>
+        <div id="conversation-list" class="conversation-list"></div>
+      </div>
+
+      <div class="sidebar-footer">
+        <span id="health-dot" class="status-dot"></span>
+        <span id="health-label">Checking Atlas…</span>
+      </div>
+    </aside>
+
+    <div class="mobile-scrim" id="mobile-scrim"></div>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="icon-button mobile-only" id="open-sidebar" aria-label="Open menu">☰</button>
+        <div class="context-controls">
+          <label>Agent<select id="agent-select"></select></label>
+          <label>Provider<select id="provider-select"></select></label>
+          <label>Project<select id="project-select"><option value="">No project</option></select></label>
+        </div>
+        <div class="topbar-actions">
+          <label class="switch-label"><input type="checkbox" id="local-only" checked><span class="switch"></span>Local only</label>
+          <span id="run-status" class="pill">Ready</span>
+        </div>
+      </header>
+
+      <section class="view active" id="view-chat">
+        <div class="chat-stage">
+          <div id="messages" class="messages" aria-live="polite" tabindex="0" aria-label="Conversation">
+            <div class="welcome-card" id="welcome-card">
+              <div class="welcome-mark">A</div>
+              <h1>Atlas Core</h1>
+              <p>Your identity, memory, projects, permissions, and agents live here—independent of any one model.</p>
+              <div class="starter-grid">
+                <button class="starter" data-prompt="Explain what you can do locally and where your memory is stored.">Explain this system</button>
+                <button class="starter" data-prompt="List my active projects and summarize the next action for each.">Review my projects</button>
+                <button class="starter" data-prompt="Search your explicit memory for anything related to Atlas Core.">Inspect memory</button>
+              </div>
+            </div>
+          </div>
+          <div id="inline-approval" class="inline-approval hidden"></div>
+          <div class="composer-wrap">
+            <div id="chat-status" class="chat-status hidden" role="status" aria-live="polite">
+              <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span id="chat-status-label">Atlas is thinking…</span>
+            </div>
+            <div class="composer">
+              <textarea id="message-input" rows="1" placeholder="Message Atlas…" aria-label="Message Atlas"></textarea>
+              <button id="send-button" class="send-button" aria-label="Send message">↑</button>
+            </div>
+            <div class="composer-meta">
+              <label><input id="tools-enabled" type="checkbox" checked> Allow agent tools under owner policy</label>
+              <span>Enter to send · Shift+Enter for a new line</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-projects">
+        <div class="page-header"><div><h1>Projects</h1><p>Durable status, decisions, and next actions.</p></div><button class="secondary-button" id="refresh-projects">Refresh</button></div>
+        <div class="two-column">
+          <form id="project-form" class="panel form-panel">
+            <h2>Create or update</h2>
+            <label>Slug<input id="project-slug" required pattern="[a-z0-9][a-z0-9-]{0,99}" placeholder="etsy-sales-manager"></label>
+            <label>Name<input id="project-name" required placeholder="Etsy Sales Manager"></label>
+            <label>Status<input id="project-status" value="active"></label>
+            <label>Summary<textarea id="project-summary" rows="5"></textarea></label>
+            <label>Next action<textarea id="project-next" rows="3"></textarea></label>
+            <button class="primary-button" type="submit">Save project</button>
+          </form>
+          <div id="project-list" class="card-list"></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-memory">
+        <div class="page-header"><div><h1>Memory</h1><p>Explicit, searchable, and fully inspectable.</p></div><div class="search-row"><input id="memory-search" placeholder="Search memory"><button class="secondary-button" id="search-memory">Search</button></div></div>
+        <div class="two-column">
+          <form id="memory-form" class="panel form-panel">
+            <h2>Add memory</h2>
+            <label>Namespace<input id="memory-namespace" value="global"></label>
+            <label>Kind<input id="memory-kind" value="note"></label>
+            <label>Key<input id="memory-key" required placeholder="communication-style"></label>
+            <label>Content<textarea id="memory-content" rows="6" required></textarea></label>
+            <label>Importance<input id="memory-importance" type="number" min="1" max="10" value="5"></label>
+            <button class="primary-button" type="submit">Store memory</button>
+          </form>
+          <div id="memory-list" class="card-list"></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-approvals">
+        <div class="page-header"><div><h1>Approvals</h1><p>Consequential actions pause here before execution.</p></div><button class="secondary-button" id="refresh-approvals">Refresh</button></div>
+        <div id="approval-list" class="card-list wide"></div>
+      </section>
+
+      <section class="view" id="view-agents">
+        <div class="page-header"><div><h1>Agents</h1><p>Specialized roles share Atlas identity and owner-controlled permissions.</p></div></div>
+        <div id="agent-list" class="agent-grid"></div>
+      </section>
+
+      <section class="view" id="view-settings">
+        <div class="page-header"><div><h1>Settings</h1><p>Models are replaceable. Atlas state remains yours.</p></div></div>
+        <div class="settings-grid">
+          <div class="panel">
+            <div class="panel-heading"><h2>Provider health</h2><button class="secondary-button small" id="check-providers">Check</button></div>
+            <div id="provider-health" class="status-list"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-heading"><h2>Google Workspace</h2><button class="secondary-button small" id="check-google">Check connection</button></div>
+            <div id="google-connection-status" class="connection-status" aria-live="polite"></div>
+            <button class="secondary-button small" id="toggle-google-reconnect" type="button">Reconnect instructions</button>
+            <div id="google-reconnect-guide" class="connection-guide hidden">
+              <strong>Reconnect safely</strong>
+              <ol>
+                <li>Open the Atlas folder on this Mac.</li>
+                <li>Double-click <code>Connect Google.command</code>.</li>
+                <li>Review Atlas's access disclosure and continue in Google.</li>
+                <li>Return here and choose <strong>Check connection</strong>.</li>
+              </ol>
+              <p>Reconnect only when this panel asks for it. Repeating authorization unnecessarily can create extra Google refresh tokens.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>Mac Operator</h2>
+            <div id="mac-inbox-status" class="connection-status" aria-live="polite"></div>
+            <p class="muted">Atlas can operate only the dedicated Atlas Inbox folder. It cannot reach the rest of Documents, Desktop, hidden files, executables, or the terminal through this task family.</p>
+            <p class="muted">Immediate stop: turn off <strong>Allow agent tools</strong>, stop Atlas, or double-click <code>Pause Atlas Mac Operator.command</code>.</p>
+          </div>
+          <div class="panel">
+            <h2>Native Phone Companion</h2>
+            <div id="phone-companion-status" class="connection-status" aria-live="polite"></div>
+            <p class="muted">The first phone gate reports only device, operating-system, app, and battery status through an explicitly paired, on-demand local bridge.</p>
+            <p class="muted">It does not request Contacts, Calendars, Photos, Microphone, Camera, Location, Bluetooth, Notifications, or background access. Immediate stop: disconnect in the app, stop the separate bridge terminal, or double-click <code>Pause Atlas Phone Companion.command</code>.</p>
+          </div>
+          <div class="panel">
+            <div class="panel-heading"><h2>Atlas Supervisor</h2><button class="secondary-button small" id="toggle-supervisor" type="button">Pause</button></div>
+            <div id="supervisor-status" class="connection-status" aria-live="polite"></div>
+            <p class="muted">Software Development tasks are manual, persistent, and limited to status inspection or fixed checks in the owner registry. Every run requires the exact <code>RUN</code> confirmation.</p>
+            <p class="muted">Supervisor v1 cannot edit projects, invent terminal commands, run in the background, push, merge, deploy, spend, or communicate externally.</p>
+          </div>
+          <div class="panel">
+            <div class="panel-heading"><h2>Supervisor v2 fixture gate</h2><button class="secondary-button small" id="check-supervisor-v2" type="button">Verify pin</button></div>
+            <div id="supervisor-v2-status" class="connection-status" aria-live="polite"></div>
+            <p class="muted">This commissioning surface can make one owner-confirmed Codex-service attempt in a disposable fixture clone whose commands have network disabled. It cannot write the canonical fixture, apply the candidate, commit, push, deploy, or retry.</p>
+            <button class="secondary-button small" id="plan-supervisor-v2" type="button">Plan fixed fixture recipe</button>
+            <label>Exact commissioning phrase
+              <input id="supervisor-v2-confirmation" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Plan first, then type the displayed APPLY phrase">
+            </label>
+            <button class="primary-button small" id="run-supervisor-v2" type="button" disabled>Run one disposable-fixture attempt</button>
+            <div id="supervisor-v2-result" class="connection-detail" aria-live="polite"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-heading"><h2>Supervisor v3 recovery SDK pilot</h2><button class="secondary-button small" id="check-supervisor-v3" type="button">Verify offline build</button></div>
+            <div id="supervisor-v3-status" class="connection-status" aria-live="polite"></div>
+            <p class="muted">The pinned Python SDK, App Server runtime, complete stable-event classifier, rejecting approval callback, process-group stop control, and privacy-safe ledger are installed. Offline checks do not contact a model.</p>
+            <p class="muted">The original canary, successor canary, fixture, and recovery-fixture attempts remain permanently exhausted. The recovery canary passed without changing source; the recovery fixture later failed closed on a disallowed command source before any candidate change. Both recovery owner switches are closed.</p>
+            <div class="form-actions">
+              <button class="secondary-button small" id="plan-supervisor-v3-canary" type="button" disabled>Plan one protocol canary</button>
+              <button class="secondary-button small" id="plan-supervisor-v3-successor" type="button" disabled>Plan one successor canary</button>
+              <button class="secondary-button small" id="plan-supervisor-v3-fixture" type="button" disabled>Plan one fixture candidate</button>
+              <button class="secondary-button small" id="plan-supervisor-v3-recovery-canary" type="button" disabled>Plan recovery canary</button>
+              <button class="secondary-button small" id="plan-supervisor-v3-recovery-fixture" type="button" disabled>Plan recovery fixture</button>
+            </div>
+            <label>Exact stage phrase
+              <input id="supervisor-v3-confirmation" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="A live stage must first be separately authorized and planned">
+            </label>
+            <button class="primary-button small" id="run-supervisor-v3" type="button" disabled>Run the planned v3 stage</button>
+            <div id="supervisor-v3-result" class="connection-detail" aria-live="polite"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-heading"><h2>Supervisor v4 proposal core</h2></div>
+            <div id="supervisor-v4-status" class="connection-status" aria-live="polite"></div>
+            <p class="muted">V4 is implemented but inactive. Its SDK adapter may qualify synthetic protocol events and strict structured proposals only; every model command, tool, file change, approval, and external action is prohibited.</p>
+            <p class="muted">The original host-preflight claim is terminal, its predecessor-bound recovery candidate expired unused, and the exact result is reviewed only as inactive historical evidence. The successor point-of-action contract and native Swift fixture are qualified inactive across 63 exact synthetic cases. The fixture models replay-after-restart, one-use concurrency, crash quarantine, binding substitution, and mount/collision rejection; it does not verify durable filesystem I/O or an independent anchor. Root custody, production signing, installation, whole-host rollback resistance, production preflight, and production apply remain unqualified. The next gate is owner review of the installation, signing, and independent-anchor plan. No new host query, administrator prompt, identity mutation, Keychain or launchd access, credential or private-data use, network/model contact, background service, deployment, or live execution occurred. Live readiness remains false, and there is no API, UI, or ordinary-startup run control.</p>
+          </div>
+          <div class="panel">
+            <h2>Local installation</h2>
+            <div id="settings-summary" class="definition-list"></div>
+            <label>API token for this browser<input id="api-token" type="password" placeholder="Only needed if ATLAS_API_TOKEN is set"></label>
+            <button class="secondary-button" id="save-token">Save for this session</button>
+          </div>
+          <div class="panel span-two">
+            <div class="panel-heading"><h2>Identity documents</h2><select id="identity-select"></select></div>
+            <textarea id="identity-editor" class="code-editor" rows="16"></textarea>
+            <div class="form-actions"><span id="identity-fingerprint" class="muted"></span><button class="primary-button" id="save-identity">Save identity</button></div>
+          </div>
+          <div class="panel span-two">
+            <h2>Owner permission policy</h2>
+            <p class="muted">Changes are validated and versioned. The model has no tool that can edit this policy.</p>
+            <textarea id="permissions-editor" class="code-editor" rows="18"></textarea>
+            <div class="form-actions"><span class="muted">allow · ask · deny</span><button class="primary-button" id="save-permissions">Save policy</button></div>
+          </div>
+          <div class="panel">
+            <h2>Import</h2>
+            <p class="muted">Import a ChatGPT export ZIP, Atlas backup ZIP, generic conversation JSON, or an explicit memory file.</p>
+            <label>File<input id="import-file" type="file"></label>
+            <label>Format<select id="import-source"><option value="auto">Auto-detect</option><option value="chatgpt">ChatGPT export</option><option value="memories">Explicit memory file</option><option value="generic">Generic conversation JSON</option></select></label>
+            <button class="primary-button" id="run-import">Import into Atlas</button>
+            <pre id="import-result" class="result-box hidden"></pre>
+          </div>
+          <div class="panel">
+            <h2>Backup and portability</h2>
+            <p class="muted">Create a portable ZIP with a consistent SQLite snapshot, identity, configuration, and workspace. API secrets are excluded.</p>
+            <button class="primary-button" id="export-backup">Create Atlas backup</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-audit">
+        <div class="page-header"><div><h1>Audit</h1><p>Local record of model, tool, memory, approval, and migration activity.</p></div><button class="secondary-button" id="refresh-audit">Refresh</button></div>
+        <div class="panel table-panel"><table><thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Outcome</th><th>Resource</th></tr></thead><tbody id="audit-body"></tbody></table></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="token-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="token-title">
+    <div class="modal-card">
+      <div class="welcome-mark small">A</div>
+      <h2 id="token-title">Atlas API token required</h2>
+      <p>This Atlas installation is protected. Enter the token configured in <code>ATLAS_API_TOKEN</code>.</p>
+      <input id="modal-token" type="password" placeholder="Bearer token">
+      <button class="primary-button full" id="submit-token">Unlock Atlas</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status"></div>
+  <script src="/static/app.js?v=20260906-ui1" defer></script>
+</body>
+</html>

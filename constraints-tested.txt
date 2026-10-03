@@ -1,0 +1,15 @@
+# Observed in the passing macOS Python 3.14.7 environment; not a hash lock.
+anyio==4.14.2
+build==1.5.0
+cryptography==50.0.1
+fastapi==0.141.1
+httpx==0.28.1
+keyring==25.7.0
+pydantic==2.13.4
+pytest==9.1.1
+python-multipart==0.0.32
+PyYAML==6.0.3
+setuptools==84.0.0
+typer==0.27.1
+uvicorn==0.52.4
+wheel==0.48.0

@@ -1,0 +1,14 @@
+Atlas Core
+Copyright 2026 Joel Farrington
+
+Atlas Core was developed with AI assistance.
+The Atlas project material in this release is licensed under the Apache License,
+Version 2.0. See LICENSE for the full, unmodified license terms.
+
+Separately installed dependencies retain their own licenses and attribution
+requirements. Their code, virtual environments, native libraries and optional
+SDK/worker artifacts are not bundled in this release. See THIRD_PARTY_NOTICES.md
+and DEPENDENCIES.json for the observed dependency licenses and nested notices.
+
+This NOTICE is informational and does not modify the Apache License or upstream
+licenses, nor grant rights to third-party trademarks or imply vendor endorsement.

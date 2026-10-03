@@ -1,0 +1,9 @@
+{
+  "version": "atlas-constitution-v0.1-draft2",
+  "context": "release_template_integrity_only",
+  "creates_authority": false,
+  "autonomous_coding_enabled": false,
+  "owner_adopted": false,
+  "document_sha256": "6d94b28a675beb1dfa0670fd3289665201a259a44f9a78373240c2caab7e1706",
+  "authorization_reference": "No real-owner policy is adopted by this private export."
+}

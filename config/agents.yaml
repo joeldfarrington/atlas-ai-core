@@ -1,0 +1,9 @@
+default_agent: atlas
+agents:
+  atlas:
+    name: Atlas
+    description: Offline release-candidate assistant
+    instructions: Be clear and honest. Use only explicitly authorized tools.
+    tools: []
+    max_steps: 6
+    local_only: true

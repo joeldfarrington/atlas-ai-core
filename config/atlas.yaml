@@ -1,0 +1,70 @@
+release_candidate_public_template: true
+# Public sample: empty owner settings, offline mock, no owner grants.
+app:
+  root_dir: ..
+  data_dir: ${ATLAS_PRIVATE_ROOT}/data
+  identity_dir: ${ATLAS_PRIVATE_ROOT}/identity
+  workspace_dir: ${ATLAS_PRIVATE_ROOT}/workspace
+  permissions_file: config/permissions.yaml
+  agents_file: config/agents.yaml
+  development_projects_file: config/development_projects.yaml
+  database_name: atlas.db
+
+providers:
+  mock:
+    kind: mock
+    model: atlas-mock
+    local: true
+    enabled: true
+  openai:
+    kind: openai_responses
+    base_url: https://api.openai.com/v1
+    model: owner-selected-model
+    api_key_env: OPENAI_API_KEY
+    local: false
+    enabled: false
+  anthropic:
+    kind: anthropic
+    base_url: https://api.anthropic.com
+    model: owner-selected-model
+    api_key_env: ANTHROPIC_API_KEY
+    local: false
+    enabled: false
+
+routing:
+  default_provider: mock
+  fallback_providers: []
+backups:
+  include_workspace_by_default: false
+mac_inbox:
+  enabled: false
+  root: disabled-inbox
+phone_companion:
+  enabled: false
+supervisor:
+  enabled: false
+supervisor_v2:
+  enabled: false
+supervisor_v3:
+  enabled: false
+  fixture_owner_authorized: false
+  recovery_canary_owner_authorized: false
+  recovery_fixture_owner_authorized: false
+supervisor_v4:
+  enabled: false
+  offline_qualification_enabled: false
+  same_user_broker_mode: disabled
+  same_user_broker_qualification_enabled: false
+google_workspace:
+  enabled: false
+  expected_account: ${ATLAS_GOOGLE_EXPECTED_ACCOUNT:-}
+  time_zone: ${ATLAS_GOOGLE_TIME_ZONE:-UTC}
+research_journal:
+  enabled: false
+  projects: {}
+growth:
+  enabled: false
+  projects: []
+practice:
+  enabled: false
+  background_enabled: false

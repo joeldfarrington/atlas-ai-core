@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools==84.0.0", "wheel==0.48.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atlas-core"
+version = "1.0.0rc2"
+description = "Atlas Core: portable context with owner-controlled tools."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "Joel Farrington"}]
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "DEPENDENCIES.json"]
+dependencies = [
+  "anyio>=4,<5",
+  "cryptography>=50.0.1,<51", "fastapi>=0.128,<1", "httpx>=0.28,<1",
+  "keyring>=25.7,<26", "pydantic>=2.13,<3", "python-multipart>=0.0.20,<1",
+  "PyYAML>=6,<7", "typer>=0.20,<1", "uvicorn>=0.35,<1"
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=9,<10", "build>=1.3,<2"]
+
+[project.scripts]
+atlas = "atlas_core.cli:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+atlas_core = ["ui/*.html", "ui/*.css", "ui/*.js", "resources/*.json", "resources/constitution/*.md", "resources/constitution/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,533 @@
+{
+  "format": "atlas-supervisor-v4-replays",
+  "version": 1,
+  "cases": [
+    {
+      "id": "proposal-terminal-eligible",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "remoteControl/status/changed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "disabled"}},
+        {"method": "thread/status/changed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "thread/tokenUsage/updated", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "userMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "userMessage"}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "reasoning"}},
+        {"method": "item/reasoning/summaryTextDelta", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "reasoning"}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/agentMessage/delta", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "def count_words(text: str) -> int:\n    return len(text.split())\n"}}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "completed", "typed_result_status": "completed", "result_proposal_sha256": "d867a9aa3155bd117ee3a089549d7a94fc25664ae46a377d80148a5b3a0b45a6", "readers_joined": true, "queue_drained": true, "late_event_count": 0, "reader_error_count": 0}}
+      ],
+      "expected": {"outcome": "proposal_eligible", "decision_code": "proposal_schema_eligible"}
+    },
+    {
+      "id": "command-source-agent",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "commandExecution", "source": "agent"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "command_source_agent_prohibited"}
+    },
+    {
+      "id": "command-source-default-agent",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "commandExecution", "source": "agent", "source_defaulted": true}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "command_source_agent_prohibited"}
+    },
+    {
+      "id": "command-source-unified-startup",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "commandExecution", "source": "unifiedExecStartup"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "command_source_unified_exec_startup_prohibited"}
+    },
+    {
+      "id": "command-source-unified-interaction",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "commandExecution", "source": "unifiedExecInteraction"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "command_source_unified_exec_interaction_prohibited"}
+    },
+    {
+      "id": "command-source-user-shell",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "commandExecution", "source": "userShell"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "command_source_user_shell_prohibited"}
+    },
+    {
+      "id": "command-source-missing",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "commandExecution"}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "command_source_missing"}
+    },
+    {
+      "id": "command-source-schema-new",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "commandExecution", "source": "futureSource"}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "command_source_unknown"}
+    },
+    {
+      "id": "command-source-malformed",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "commandExecution", "source": 7}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "command_source_malformed"}
+    },
+    {
+      "id": "file-change-item",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "fileChange"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "file_change_event_prohibited"}
+    },
+    {
+      "id": "tool-item",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "mcpToolCall"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "action_item_prohibited"}
+    },
+    {
+      "id": "plan-item",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "plan"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "action_item_prohibited"}
+    },
+    {
+      "id": "collaboration-item",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "collabAgentToolCall"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "action_item_prohibited"}
+    },
+    {
+      "id": "web-search-item",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "webSearch"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "action_item_prohibited"}
+    },
+    {
+      "id": "image-generation-item",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "imageGeneration"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "action_item_prohibited"}
+    },
+    {
+      "id": "context-compaction-item",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "contextCompaction"}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "action_item_prohibited"}
+    },
+    {
+      "id": "command-output-event",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/commandExecution/outputDelta", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "command_event_prohibited"}
+    },
+    {
+      "id": "file-patch-event",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/fileChange/patchUpdated", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "file_change_event_prohibited"}
+    },
+    {
+      "id": "command-approval-request",
+      "events": [
+        {"method": "item/commandExecution/requestApproval", "server_request": true, "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "unexpected_approval_request"}
+    },
+    {
+      "id": "file-approval-request",
+      "events": [
+        {"method": "item/fileChange/requestApproval", "server_request": true, "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "unexpected_approval_request"}
+    },
+    {
+      "id": "user-input-request",
+      "events": [
+        {"method": "item/tool/requestUserInput", "server_request": true, "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "server_request_prohibited"}
+    },
+    {
+      "id": "auth-refresh-request",
+      "events": [
+        {"method": "account/chatgptAuthTokens/refresh", "server_request": true, "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "server_request_prohibited"}
+    },
+    {
+      "id": "capability-event-prohibited",
+      "events": [
+        {"method": "model/rerouted", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "prohibited", "decision_code": "capability_event_prohibited"}
+    },
+    {
+      "id": "capability-status-not-disabled",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "remoteControl/status/changed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "connecting"}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "capability_status_not_disabled"}
+    },
+    {
+      "id": "disabled-status-sequence-incomplete",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "remoteControl/status/changed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "disabled"}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "sequence_incomplete"}
+    },
+    {
+      "id": "unknown-method-name",
+      "events": [
+        {"method": "future/notification", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "unknown_method"}
+    },
+    {
+      "id": "malformed-method-name",
+      "events": [
+        {"method": "9 bad method", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "method_malformed"}
+    },
+    {
+      "id": "unknown-event-key",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}, "unreviewedEnvelopeKey": "synthetic-discarded-value"}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "unknown_event_key"}
+    },
+    {
+      "id": "unknown-payload-key",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"unreviewedPayloadKey": "synthetic-discarded-value"}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "unknown_payload_key"}
+    },
+    {
+      "id": "unknown-correlation-key",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true, "future": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "unknown_correlation_key"}
+    },
+    {
+      "id": "schema-invalid",
+      "events": [
+        {"method": "thread/started", "schema_valid": false, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "schema_invalid"}
+    },
+    {
+      "id": "correlation-incomplete",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "correlation_incomplete"}
+    },
+    {
+      "id": "correlation-mismatch",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": false}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "correlation_mismatch"}
+    },
+    {
+      "id": "correlation-malformed",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": [true, true, true, true], "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "correlation_malformed"}
+    },
+    {
+      "id": "turn-before-thread",
+      "events": [
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "turn_started_reordered"}
+    },
+    {
+      "id": "duplicate-thread-start",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "thread_started_duplicate_or_reordered"}
+    },
+    {
+      "id": "duplicate-item-start",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "reasoning"}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "item_started_duplicate_or_reordered"}
+    },
+    {
+      "id": "item-completed-before-start",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "item_completed_reordered"}
+    },
+    {
+      "id": "item-completed-type-mismatch",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "reasoning"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "userMessage"}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "item_completed_type_mismatch"}
+    },
+    {
+      "id": "turn-terminal-failed",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "failed", "typed_result_status": "failed", "result_proposal_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "readers_joined": true, "queue_drained": true, "late_event_count": 0, "reader_error_count": 0}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "turn_terminal_not_completed"}
+    },
+    {
+      "id": "typed-terminal-status-mismatch",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "completed", "typed_result_status": "failed", "result_proposal_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "readers_joined": true, "queue_drained": true, "late_event_count": 0, "reader_error_count": 0}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "turn_terminal_not_completed"}
+    },
+    {
+      "id": "terminal-reader-not-joined",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "completed", "typed_result_status": "completed", "result_proposal_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "readers_joined": false, "queue_drained": true, "late_event_count": 0, "reader_error_count": 0}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "terminal_barrier_incomplete"}
+    },
+    {
+      "id": "terminal-queue-not-drained",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "completed", "typed_result_status": "completed", "result_proposal_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "readers_joined": true, "queue_drained": false, "late_event_count": 0, "reader_error_count": 0}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "terminal_barrier_incomplete"}
+    },
+    {
+      "id": "terminal-late-event-count",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "completed", "typed_result_status": "completed", "result_proposal_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "readers_joined": true, "queue_drained": true, "late_event_count": 1, "reader_error_count": 0}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "terminal_barrier_incomplete"}
+    },
+    {
+      "id": "terminal-reader-error-count",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "completed", "typed_result_status": "completed", "result_proposal_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "readers_joined": true, "queue_drained": true, "late_event_count": 0, "reader_error_count": 1}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "terminal_barrier_incomplete"}
+    },
+    {
+      "id": "terminal-without-final-proposal",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "completed", "typed_result_status": "completed", "result_proposal_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "readers_joined": true, "queue_drained": true, "late_event_count": 0, "reader_error_count": 0}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "typed_result_proposal_mismatch"}
+    },
+    {
+      "id": "proposal-flag-not-sufficient",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal_schema_valid": true}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "unknown_payload_key"}
+    },
+    {
+      "id": "proposal-schema-incomplete",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888"}}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "proposal_schema_incomplete"}
+    },
+    {
+      "id": "proposal-unknown-key",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "return 1\n", "future_field": "synthetic"}}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "proposal_unknown_key"}
+    },
+    {
+      "id": "proposal-path-mismatch",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "tests/test_word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "return 1\n"}}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "proposal_path_not_allowed"}
+    },
+    {
+      "id": "proposal-secret-like-content",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "password=AAAAAAAA\n"}}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "proposal_secret_like_content"}
+    },
+    {
+      "id": "proposal-nul-content",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "return 1\u0000\n"}}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "proposal_replacement_not_utf8_text"}
+    },
+    {
+      "id": "multiple-final-agent-messages",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "def count_words(text: str) -> int:\n    return len(text.split())\n"}}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "def count_words(text: str) -> int:\n    return len(text.split())\n"}}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "multiple_final_agent_messages"}
+    },
+    {
+      "id": "final-agent-phase-invalid",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "draft", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "return 1\n"}}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "final_agent_message_phase_invalid"}
+    },
+    {
+      "id": "typed-result-proposal-mismatch",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "def count_words(text: str) -> int:\n    return len(text.split())\n"}}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "completed", "typed_result_status": "completed", "result_proposal_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "readers_joined": true, "queue_drained": true, "late_event_count": 0, "reader_error_count": 0}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "typed_result_proposal_mismatch"}
+    },
+    {
+      "id": "late-event-after-terminal",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "turn/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}},
+        {"method": "item/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage"}},
+        {"method": "item/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"item_type": "agentMessage", "message_phase": "final_answer", "proposal": {"schema_version": 1, "operation": "replace_existing_file", "baseline_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "path": "src/word_counter.py", "original_sha256": "8888888888888888888888888888888888888888888888888888888888888888", "replacement": "def count_words(text: str) -> int:\n    return len(text.split())\n"}}},
+        {"method": "turn/completed", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "completed", "typed_result_status": "completed", "result_proposal_sha256": "d867a9aa3155bd117ee3a089549d7a94fc25664ae46a377d80148a5b3a0b45a6", "readers_joined": true, "queue_drained": true, "late_event_count": 0, "reader_error_count": 0}},
+        {"method": "warning", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "terminal_barrier_violation"}
+    },
+    {
+      "id": "explicitly-truncated-input",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}, "truncated": true}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "input_truncated"}
+    },
+    {
+      "id": "oversized-string-input",
+      "events": [
+        {"method": "thread/started", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"status": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "input_string_limit_exceeded"}
+    },
+    {
+      "id": "oversized-collection-input",
+      "events": [
+        {"method": "warning", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {"items": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "input_collection_limit_exceeded"}
+    },
+    {
+      "id": "app-server-error",
+      "events": [
+        {"method": "error", "schema_valid": true, "correlation": {"task": true, "thread": true, "turn": true, "item": true}, "payload": {}}
+      ],
+      "expected": {"outcome": "compatibility_violation", "decision_code": "app_server_error"}
+    }
+  ]
+}

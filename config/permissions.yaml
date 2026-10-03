@@ -1,0 +1,3 @@
+# No tool authority is supplied by this release template.
+default: deny
+tools: {}

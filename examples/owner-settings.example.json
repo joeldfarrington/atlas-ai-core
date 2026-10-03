@@ -1,0 +1,13 @@
+{
+  "settings": {
+    "private_root": "",
+    "google_expected_account": "",
+    "google_time_zone": ""
+  },
+  "secrets": {
+    "OPENAI_API_KEY": "",
+    "ANTHROPIC_API_KEY": "",
+    "ATLAS_API_TOKEN": "",
+    "ATLAS_LOCAL_API_KEY": ""
+  }
+}
