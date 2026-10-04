@@ -3,7 +3,7 @@ name: Public checks
 on:
   pull_request:
   push:
-    branches: [main, 'chore/public-readiness']
+    branches: [main]
 
 permissions:
   contents: read
@@ -46,8 +46,10 @@ jobs:
       - name: Source distribution tests
         run: |
           mkdir "$RUNNER_TEMP/atlas-sdist"
-          tar -xzf dist/atlas_core-*.tar.gz -C "$RUNNER_TEMP/atlas-sdist"
-          .venv/bin/python -I -B scripts/check_public_release.py runtime --root "$RUNNER_TEMP/atlas-sdist/atlas_core-1.0.0rc3.dev0"
+          sdist_archive=(dist/atlas_core-*.tar.gz)
+          tar -xzf "${sdist_archive[0]}" -C "$RUNNER_TEMP/atlas-sdist"
+          sdist_name="$(basename "${sdist_archive[0]}" .tar.gz)"
+          .venv/bin/python -I -B scripts/check_public_release.py runtime --root "$RUNNER_TEMP/atlas-sdist/$sdist_name"
       - name: Clean wheel installation and core checks
         run: |
           python -m venv "$RUNNER_TEMP/atlas-wheel-env"
