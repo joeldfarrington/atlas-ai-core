@@ -1,10 +1,20 @@
-# Release provenance — 1.0.0rc2
+# Release provenance
 
 Copyright 2026 Joel Farrington. Licensed under Apache-2.0; see LICENSE and NOTICE.
 The release maintainer confirmed authority to release the included code and
 approved Apache-2.0 and this copyright attribution on October 3, 2026.
 
-This release is derived from the previously reviewed, frozen 200-file export
+## Published 1.0.0rc2 baseline
+
+The original release candidate was published on October 3, 2026 as public root
+commit `97b7c0e30153ca3a9ef1b77ce69c9c5e096361b5`, containing 204 files.
+Its licensed source ZIP SHA-256 is
+`22d6c593f570396a502d8e444db3d537cea728c7ac84b7a5c837e5ad15ec04a4`.
+Its checksum manifest SHA-256 is
+`7ce8c7b96cce680d5bd48ff1155138382608d86510dc25cb01b1cb9ffa8399f5`.
+Those hashes identify the original reviewed artifacts, not later working trees.
+
+That release is derived from the previously reviewed, frozen 200-file export
 whose ZIP SHA-256 is
 `6228435a843d754f6b5a0d117194680ddca2a189661718bb9ada8efb606d29b1`.
 That earlier artifact was an unlicensed private review package, not a published
@@ -38,5 +48,26 @@ migration or installation over an existing Atlas. In particular, the private
 owner-file prototype remains blocked from live use with real credentials pending
 protection against inheritance by child processes. See PRIVATE_SETTINGS.md.
 
-The Apache license decision is approved. Repository creation, upload/public
-visibility and any program application remain separate final-review actions.
+The maintainer's Codex for Open Source application was submitted on October 4,
+2026, using bounded evidence from the published 1.0.0rc2 baseline. Submission
+does not establish acceptance or sponsorship.
+
+## Unreleased 1.0.0rc3.dev0 maintenance preview
+
+This development version updates public documentation, contribution/reporting
+guidance, and automated checks. The application runtime changes only its version
+identifier. Existing configurations, runtime logic, UI, resources and selected
+tests are unchanged from the published baseline. No private source refresh or
+private history import is performed.
+
+`RELEASE_MANIFEST.sha256` describes the current reviewed public source tree,
+excluding the manifest itself. After an intentional file change, stage only the
+reviewed public paths and refresh it using `scripts/check_public_release.py` as
+documented in DEVELOPMENT.md. The original rc2 manifest remains available at
+its immutable baseline commit. New development builds use `1.0.0rc3.dev0` and
+must not be labeled or distributed as the original rc2 artifacts.
+
+Build checks compare source/sdist/wheel contents and licensing metadata with the
+current manifest. They do not prove identical archive bytes across platforms or
+produce a published release. Tags, GitHub Releases and registry uploads remain
+separate maintainer decisions after the exact commit and checks are reviewed.

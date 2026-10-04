@@ -6,10 +6,15 @@ Copyright 2026 Joel Farrington. Developed with AI assistance.
 See [NOTICE](NOTICE), [dependency disclosures](THIRD_PARTY_NOTICES.md), and
 [release provenance](RELEASE_PROVENANCE.md).
 
-Version **1.0.0rc2** is a release candidate prepared for final publication review.
-It is based on a previously reviewed frozen export. Its Apache license decision
-is approved; repository creation, publication and application submission still
-require their separate final approval.
+Atlas Core is public at [joeldfarrington/atlas-ai-core](https://github.com/joeldfarrington/atlas-ai-core).
+The published **1.0.0rc2** baseline is commit
+[`97b7c0e`](https://github.com/joeldfarrington/atlas-ai-core/tree/97b7c0e30153ca3a9ef1b77ce69c9c5e096361b5).
+The maintainer submitted a Codex for Open Source application on October 4, 2026;
+submission does not imply acceptance or sponsorship.
+
+This branch is **1.0.0rc3.dev0**, an unreleased maintenance preview. It updates
+documentation and public checks without qualifying additional runtime features.
+There is no stable release or supported live deployment yet.
 
 The candidate is separate from canonical Atlas. It does not contain its Git
 history, personal memory, credentials, private project registry, owner adoption
@@ -18,7 +23,7 @@ uses a reviewed current-source dependency closure rather than only tracked files
 Optional compatibility modules are retained because the current CLI/API imports
 them; their execution paths remain disabled and unqualified in this candidate.
 
-## Setup for a future owner-run review
+## Credential-free setup
 
 Python 3.11+ is declared; checks so far used Python 3.14.7 on this Mac. This
 candidate includes POSIX/macOS-specific compatibility modules. Other Python
@@ -27,11 +32,15 @@ are not bundled. `constraints-tested.txt` records the tested environment; it is
 not a cross-platform hash lock. The dependency disclosure records observed
 licenses and upstream notices for that environment, not a complete binary SBOM.
 
-These are setup instructions, not commands performed against your working Atlas:
+Use a dedicated clone of this public repository, separate from any working Atlas
+installation. [Development and release checks](DEVELOPMENT.md) describe the
+automated checks and how to reconcile reviewed changes manually.
 
 ```sh
+git clone https://github.com/joeldfarrington/atlas-ai-core.git
+cd atlas-ai-core
 python3 -m venv .venv
-.venv/bin/python -m pip install -c constraints-tested.txt '.[dev]'
+.venv/bin/python -m pip install -c constraints-tested.txt '.[dev]' setuptools wheel
 export ATLAS_PRIVATE_ROOT="$HOME/.local/share/atlas-core-candidate"
 mkdir -m 700 -p "$ATLAS_PRIVATE_ROOT"
 .venv/bin/atlas chat "Hello" --config config/atlas.yaml --provider mock --no-tools --no-approvals
@@ -72,17 +81,22 @@ credential store is configured or accessed by this preparation.
 .venv/bin/python -m pytest tests -q
 ```
 
-The release review used 42 synthetic unit tests for memory, mock runtime, tool
+The original 1.0.0rc2 release review used 42 synthetic unit tests for memory, mock runtime, tool
 approval state, migration/backup round trips, adapter mocks and the private-file
 boundary. It also compiled 169 Python files and imported 168 modules from the
 candidate only. Test state lived outside this repository in a task-owned private
 fixture. Ambient credentials were cleared; network/process/vault actions and
 canonical payload reads were refused. No guard denial occurred in the passing
 run. This is not the entire private Atlas acceptance suite or a security audit.
-The unpacked wheel also passed 19 core tests plus an external-private-state
+The original unpacked wheel also passed 19 core tests plus an external-private-state
 boundary check. The wheel and sdist were built offline and their members were
 checked against the release file allowlist. Dependencies were reused read-only;
-no clean dependency installation or online resolver run was performed.
+no clean dependency installation or online resolver run was performed in that
+original review. The public CI now defines clean-install, source/sdist/wheel,
+manifest and credential-free mock CLI checks on GitHub-hosted Linux with Python
+3.11 and 3.14. Inspect the Actions result for the exact commit; a workflow
+definition alone is not evidence that it passed. These checks are not a full
+platform qualification, dependency hash lock or security certification.
 
 UI assets are packaged, but no browser rendering or listening server was tested.
 A future owner-run local UI review can use `atlas start --mock --no-browser`
@@ -91,6 +105,8 @@ been executed here. Live supervision, native/iOS behavior, actual provider calls
 personal-data migration and installation over working Atlas remain unverified
 and require their separate approval/checks.
 
-Do not publish this candidate until the exact file inventory, code changes,
-license/notices, test results and repository settings receive Joel's review.
-The canonical installation remains the recovery baseline throughout preparation.
+Joel Farrington is the primary maintainer. Contributions use reviewed pull
+requests; see [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
+Future tags, releases, registry uploads and live installation changes require
+their own maintainer decision. The original private installation is not
+automatically synchronized with this repository.
