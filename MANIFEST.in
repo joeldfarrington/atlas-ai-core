@@ -5,6 +5,9 @@ include NOTICE
 include THIRD_PARTY_NOTICES.md
 include DEPENDENCIES.json
 include RELEASE_PROVENANCE.md
+include CONTRIBUTING.md
+include SECURITY.md
+include DEVELOPMENT.md
 include pyproject.toml
 include constraints-tested.txt
 include RELEASE_MANIFEST.sha256
@@ -15,6 +18,8 @@ recursive-include identity *.md
 include examples/owner-settings.example.json
 recursive-include src/atlas_core *.py *.html *.css *.js *.json *.md
 recursive-include tests *.py
+recursive-include scripts *.py
+recursive-include .github *.yml *.md
 global-exclude *.py[cod]
 global-exclude __pycache__
 prune data

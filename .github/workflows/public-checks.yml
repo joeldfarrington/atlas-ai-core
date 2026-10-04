@@ -1,0 +1,60 @@
+name: Public checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  public-export:
+    name: Public export / Python ${{ matrix.python }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.14']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Clean dependency installation
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --disable-pip-version-check -c constraints-tested.txt '.[dev]' setuptools wheel
+          .venv/bin/python -m pip check
+          .venv/bin/python -m pip list --format=freeze
+      - name: Manifest, source tests, imports and mock CLI
+        run: |
+          .venv/bin/python -I -B scripts/check_public_release.py manifest
+          .venv/bin/python -I -B scripts/check_public_release.py runtime
+      - name: Build and verify package contents
+        run: |
+          export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
+          .venv/bin/python -m build --no-isolation
+          .venv/bin/python -I -B scripts/check_public_release.py packages
+      - name: Source distribution tests
+        run: |
+          mkdir "$RUNNER_TEMP/atlas-sdist"
+          sdist_archive=(dist/atlas_core-*.tar.gz)
+          tar -xzf "${sdist_archive[0]}" -C "$RUNNER_TEMP/atlas-sdist"
+          sdist_name="$(basename "${sdist_archive[0]}" .tar.gz)"
+          .venv/bin/python -I -B scripts/check_public_release.py runtime --root "$RUNNER_TEMP/atlas-sdist/$sdist_name"
+      - name: Clean wheel installation and core checks
+        run: |
+          python -m venv "$RUNNER_TEMP/atlas-wheel-env"
+          wheel_python="$RUNNER_TEMP/atlas-wheel-env/bin/python"
+          "$wheel_python" -m pip install --disable-pip-version-check -c constraints-tested.txt dist/atlas_core-*.whl pytest
+          "$wheel_python" -m pip check
+          wheel_site="$("$wheel_python" -I -c 'import sysconfig; print(sysconfig.get_path("purelib"))')"
+          "$wheel_python" -I -B scripts/check_public_release.py runtime --kind wheel --import-root "$wheel_site"

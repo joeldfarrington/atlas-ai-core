@@ -1,0 +1,29 @@
+name: Public core bug
+description: Report a reproducible problem using synthetic inputs.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use only synthetic inputs. Never attach credentials, private settings,
+        personal databases, transcripts or backups. For sensitive issues, follow
+        SECURITY.md and request a private contact without posting details.
+  - type: input
+    id: version
+    attributes:
+      label: Public commit or version
+      description: Include the exact commit and Python/OS versions.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Synthetic reproduction
+      description: Steps, expected behavior and actual behavior; redact private paths.
+    validations:
+      required: true
+  - type: textarea
+    id: checks
+    attributes:
+      label: Relevant check results
+      description: Commands/results and whether this occurs with the offline mock defaults.
