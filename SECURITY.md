@@ -6,15 +6,19 @@ security qualification or a promise of maintained historical versions.
 
 ## Reporting
 
-No private reporting channel has been verified for this repository yet, and this
-document does not claim that GitHub private vulnerability reporting is enabled.
-For a sensitive report, first open an issue titled **Private security contact
-requested**, with no technical details, attachments, personal data or secrets.
-The maintainer must establish a private route before receiving the details.
-Ordinary public bugs can use the bug template with a synthetic reproduction.
-Never post credentials or a working exploit against a live/private system.
+GitHub private vulnerability reporting is enabled for this repository. For a
+sensitive report, use [Report a vulnerability](https://github.com/joeldfarrington/atlas-ai-core/security/advisories/new)
+from the repository's Security tab. GitHub requires sign-in and notifies the
+maintainer when you submit a private report. The reporter becomes a collaborator
+on that proposed advisory; this does not grant repository administration.
 
-Once a private route is established, useful reports identify the public commit,
+Keep sensitive details out of public issues. Do not send actual credentials,
+personal data or private system artifacts through the report; use a minimal
+synthetic reproduction. Ordinary public bugs can use the bug template with
+synthetic inputs. The reporting setting does not publish an advisory or promise
+a response or remediation deadline.
+
+Useful private reports identify the public commit,
 affected component, expected boundary, observed behavior, realistic impact and
 a minimal synthetic reproduction. Do not include secret values or unnecessary
 personal files. Response and remediation times are not guaranteed.
